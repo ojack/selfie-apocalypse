@@ -1,0 +1,22 @@
+{
+  "name": "VIDEO_MIXER",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "watchify -v -d -t [ reactify --es6 ] main.js -o compiled.js & node server.js",
+    "start": "node server.js"
+  },
+  "author": "oj",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "browserify": "^9.0.8",
+    "reactify": "^1.1.0",
+    "uglify-js": "^2.4.20",
+    "watchify": "^3.1.2"
+  }
+}
