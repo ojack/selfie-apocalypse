@@ -6,16 +6,27 @@
 
 <body>
 <div id="container"></div>
-<div id="localVideo" muted style="display:none"></div>
+<video id="videoObj" muted style="display:none" autoplay = true></video>
+
 
 
 <script src="./js/three.js"></script>
+<script src="./js/gif.worker.js"></script>
+<script src="./js/gif.js"></script>
 <script src="js/shaders/CopyShader.js"></script>
 <script src="js/shaders/DotScreenShader.js"></script>
 <script src="js/shaders/RGBShiftShader.js"></script>
 <script src="js/shaders/KaleidoShader.js"></script>
 <script src="js/shaders/DigitalGlitch.js"></script>
 <script src="js/shaders/BlendShader.js"></script>
+<script src="js/shaders/FilmShader.js"></script>
+<script src="js/shaders/BrightnessContrastShader.js"></script>
+<script src="js/shaders/HueSaturationShader.js"></script>
+<script src="js/shaders/ColorCorrectionShader.js"></script>
+<script src="js/shaders/GlassWarp.js"></script>
+<script src="js/shaders/Experiment.js"></script>
+<script src="js/shaders/CheckerBoard.js"></script>
+<script src="js/shaders/DifferenceMirrorShader.js"></script>
 <script src="js/postprocessing/EffectComposer.js"></script>
 <script src="js/postprocessing/RenderPass.js"></script>
 <script src="js/postprocessing/MaskPass.js"></script>

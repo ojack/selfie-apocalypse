@@ -13,7 +13,7 @@ THREE.HueSaturationShader = {
 
 		"tDiffuse":   { type: "t", value: null },
 		"hue":        { type: "f", value: 0 },
-		"saturation": { type: "f", value: 0 }
+		"saturation": { type: "f", value: 0.2 }
 
 	},
 

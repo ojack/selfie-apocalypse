@@ -16,7 +16,8 @@ THREE.KaleidoShader = {
 
 		"tDiffuse": { type: "t", value: null },
 		"sides":    { type: "f", value: 6.0 },
-		"angle":    { type: "f", value: 0.0 }
+		"angle":    { type: "f", value: 0.0 },
+		"offset":    { type: "f", value: 10.0 },
 
 	},
 
@@ -38,16 +39,18 @@ THREE.KaleidoShader = {
 		"uniform sampler2D tDiffuse;",
 		"uniform float sides;",
 		"uniform float angle;",
+		"uniform float offset;",
 		
 		"varying vec2 vUv;",
 
 		"void main() {",
 
-			"vec2 p = vUv - 0.5;",
-			"float r = length(p);",
-			"float a = atan(p.y, p.x) + angle;",
-			"float tau = 2. * 3.1416 ;",
-			"a = mod(a, tau/sides);",
+			"vec2 p = vUv - 0.5;", // vector from center to texture coordinate
+			/* convert to polar coordinates */
+			"float r = length(p);", //radius
+			"float a = atan(p.x, p.y);", // angle
+			"float tau = 2. * 3.1416 ;", //pi
+			"a = mod(a, tau/sides) + (a/(tau/sides))*offset;",
 			"a = abs(a - tau/sides/2.) ;",
 			"p = r * vec2(cos(a), sin(a));",
 			"vec4 color = texture2D(tDiffuse, p + 0.5);",
