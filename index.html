@@ -2,12 +2,21 @@
 <html>
 <head>
 <script src="http://simplewebrtc.com/latest.js"></script>
+<style type="text/css">
+  html, body {
+   padding: 0px;
+   margin: 0px;
+    }
+  </style>
 </head>
 
 <body>
 <div id="container"></div>
 <video id="videoObj" muted style="display:none" autoplay = true></video>
 
+<img id="recording" src="textures/player_record.png"  style="width:40px;height:40px;position:absolute; right:10px; top: 10px; z-index: 40; visibility:hidden">
+
+<img id="front-page" src="textures/front-page.png"  style="width:100%;height:100%;position:absolute; top:0px; left:0px; z-index: 100;">
 
 
 <script src="./js/three.js"></script>
@@ -26,6 +35,7 @@
 <script src="js/shaders/GlassWarp.js"></script>
 <script src="js/shaders/Experiment.js"></script>
 <script src="js/shaders/CheckerBoard.js"></script>
+<script src="js/shaders/Ascii.js"></script>
 <script src="js/shaders/DifferenceMirrorShader.js"></script>
 <script src="js/postprocessing/EffectComposer.js"></script>
 <script src="js/postprocessing/RenderPass.js"></script>

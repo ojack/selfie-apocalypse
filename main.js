@@ -1,7 +1,7 @@
 var getUserMedia = require('getusermedia');
 var EffectChain = require('./js/EffectChain.js');
 var gifFrames = 0;
-var effects = ["Kaleidoscope", "GlassWarp", "Checkerboard", "Difference", "RgbDots", "Film"];
+var effects = ["Ascii", "Checkerboard", "Kaleidoscope", "GlassWarp",  "Difference", "RgbDots", "Film"];
 var effectIndex = 0;
 var renderingGif = false;
 var currentGif;
@@ -46,6 +46,7 @@ function initWebGL(){
 	//texture1  = THREE.ImageUtils.loadTexture( 'textures/crate.gif' );
 			//	texture1 .anisotropy = renderer.getMaxAnisotropy();
 	initEffects();
+	document.getElementById("front-page").style.visibility = "hidden";
 	render();
 }
 
@@ -61,7 +62,6 @@ function initVideoTexture(vid){
 
 function initEffects(){
 	effectChain = EffectChain(effects[effectIndex], renderer, texture1);
-	//dotRGBEffect();
 }
 
 
@@ -76,18 +76,9 @@ function render() {
 	requestAnimationFrame( render );
 	frameCount++;
 	texture1.needsUpdate = true;
-	//texture2.needsUpdate = true;
-	//blendEffect.uniforms['tDiffuse2'].value = texture2;
-	//blendEffect.uniforms['tDiffuse1'].value = texture1;
-	//shader.uniforms[ 'sides' ].value = Math.floor(mouseY*0.03);
-	//shader.uniforms[ 'angle' ].value +=0.01;
-	//dotScreenEffect.uniforms[ 'scale' ].value = mouseX * 0.01;
-	//rgbEffect.uniforms[ 'amount' ].value = mouseY*0.001;
-	//renderer.render( scene, camera );
-	//composer.render();
 	effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
 	if(renderingGif){
-		if(frameCount%8==0){
+		if(frameCount%10==0){
 			currentGif.addFrame(renderer.domElement);
 		}
 	}
@@ -103,16 +94,18 @@ function checkKey(e){
 	 e = e || window.event;
 	if(e.keyCode ==  83){
 		console.log("s pressed");
-		getImageData = true;
-		//effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
-		//var imgData = renderer.domElement.toDataURL();
-		//window.open(imgData);
+		//getImageData = true;
+		effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
+		var imgData = renderer.domElement.toDataURL();
+		window.open(imgData);
 		//console.log(imgData);
+		
+	
+	} else if(e.keyCode ==  71){
 		renderingGif = true;
 		currentGif = new generateGif(renderer.domElement, 50);
-	
-	}
-   else if (e.keyCode == '37') {
+
+  } else if (e.keyCode == '37') {
     	effectIndex--;
     	if(effectIndex < 0) effectIndex = effects.length-1;
        // left arrow
@@ -126,6 +119,8 @@ function checkKey(e){
 }
 
 var generateGif = function(element, numFrames){
+	document.getElementById("recording").src = "textures/player_record.png";
+	document.getElementById("recording").style.visibility = "visible";
 	effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
 	this.canvas = document.createElement( 'canvas' );
 	this.canvas.width = renderer.domElement.width;
@@ -143,6 +138,7 @@ var generateGif = function(element, numFrames){
 
 
 this.gif.on('finished', function(blob) {
+	document.getElementById("recording").style.visibility = "hidden";
   window.open(URL.createObjectURL(blob));
 });
 
@@ -164,6 +160,7 @@ generateGif.prototype.addFrame = function(element){
 }
 
 generateGif.prototype.finish = function(){
+	document.getElementById("recording").src = "textures/ajax-loader.gif";
 	renderingGif = false;
 	this.gif.render();
 }
