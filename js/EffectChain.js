@@ -2,6 +2,8 @@
 http://javascript.info/tutorial/factory-constructor-pattern
 */
 
+var ascii = require('./AsciiGradient.js');
+
 function EffectChain(type, renderer, texture){
 	  // Throw an error if no constructor for the given automobile
     
@@ -104,17 +106,22 @@ Difference.prototype.render = function(x, y){
 }
 
 var Ascii = function(renderer, texture){
+	var characters = new ascii();
+	document.body.appendChild(characters.canvas);
+	var tex = initTexture(characters.canvas);
 	this.composer = new THREE.EffectComposer( renderer );
 	this.composer.addPass( new THREE.TexturePass( texture, 1.0 ));
 	this.Ascii = new THREE.ShaderPass( THREE.AsciiShader);
+	this.Ascii.uniforms['tDiffuse2'].value = tex;
 	this.Ascii.renderToScreen = true;
 	this.composer.addPass( this.Ascii);
 }
 
 Ascii.prototype.render = function(x, y){
-	this.Ascii.uniforms[ 'width' ].value = 2.0 - x*2.0;
-	this.Ascii.uniforms[ 'height' ].value = 2.0 - y*2.0;
-	//this.Difference.uniforms[ 'mixRatio' ].value = y;
+	var cols = 32;
+	this.Ascii.uniforms[ 'rows' ].value = cols * window.innerHeight / window.innerWidth;
+	this.Ascii.uniforms[ 'cols' ].value = cols;
+	
 	this.composer.render();
 }
 
@@ -172,6 +179,16 @@ Experiment.prototype.render = function(x, y, frame){
 	
 	//this.Difference.uniforms[ 'mixRatio' ].value = y;
 	this.composer.render();
+}
+
+function initTexture(canvas){
+	var tex = new THREE.Texture( canvas );
+	//needed because cant ensure that video has power of two dimensions
+	//tex.wrapS = THREE.ClampToEdgeWrapping;
+//	tex.wrapT = THREE.ClampToEdgeWrapping;
+	//tex.minFilter = THREE.LinearFilter;
+	//tex.magFilter = THREE.LinearFilter;
+	return tex;
 }
 
 module.exports = EffectChain;

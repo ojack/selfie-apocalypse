@@ -15,6 +15,7 @@
     "three": "^0.71.0"
   },
   "devDependencies": {
+    "brfs": "^1.4.0",
     "browserify": "^9.0.8",
     "reactify": "^1.1.0",
     "uglify-js": "^2.4.20",

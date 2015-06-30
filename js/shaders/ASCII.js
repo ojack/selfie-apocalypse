@@ -8,8 +8,9 @@ THREE.AsciiShader = {
 	uniforms: {
 
 		"tDiffuse": { type: "t", value: null },
-		"width": {type: "f", value: 0.1},
-		"height": {type: "f", value: 0.3}
+		"tDiffuse2": { type: "t", value: null },
+		"rows": {type: "f", value: null},
+		"cols": {type: "f", value: null}
 
 	},
 
@@ -28,25 +29,27 @@ THREE.AsciiShader = {
 
 	fragmentShader: [
 
-		"uniform float width;",
-		"uniform float height;",
+		"uniform float rows;",
+		"uniform float cols;",
 		"uniform sampler2D tDiffuse;",
 		"uniform sampler2D tDiffuse2;",
 
 		"varying vec2 vUv;",
 
 		"void main() {",
-			"vec2 p = vUv;",
-			"p.x = 1.0 - p.x;",
-			"vec2 checker = vec2(width, height);",
-			//"if(p.x > mirror) p.x = p.x-2.0*(p.x-mirror);",
-			"vec2 cell = step(0.5, fract(vUv/checker));",
-			"if(cell.x + cell.y == 1.0){",
-			"gl_FragColor = texture2D( tDiffuse, p);",
-			"} else {",
-			"gl_FragColor = texture2D( tDiffuse, vUv);",
-			"}",
-
+                  "vec4 color;",
+                  "vec2 uv = vUv;",
+                  "vec2 xf = vec2(cols, rows);",
+                  "vec2 box = (floor(xf*uv) + 0.5) / xf;",
+                  "if (abs(uv.x-box.x) <= 0.5 / xf.x",
+                  "    && abs(uv.y-box.y) <= 0.5 / xf.y) {",
+                  "    color = texture2D(tDiffuse, box);",
+                  "} else {",
+                  "    color = vec4(0.);",
+                  "}",
+                  "float luminance = color.r * 0.299 + color.g * 0.587 + color.b * 0.114;",
+                  "gl_FragColor = vec4(luminance);",
+                //"gl_FragColor = texture2D(tDiffuse2, uv);",
 		"}"
 
 	].join("\n")
