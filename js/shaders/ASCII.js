@@ -41,10 +41,11 @@ THREE.AsciiShader = {
                   "vec2 uv = vUv;",
                   "vec2 xf = vec2(cols, rows);",
                   "vec2 box = (floor(xf*uv) + 0.5) / xf;",
+                  "vec2 offset = (uv - floor(xf*uv)/xf);",
                   "color = texture2D(tDiffuse, box);",
                   "float luminance = color.r * 0.299 + color.g * 0.587 + color.b * 0.114;",
-                  "gl_FragColor = vec4(luminance);",
-                //"gl_FragColor = texture2D(tDiffuse2, uv);",
+                //  "gl_FragColor = vec4(xf * offset, 1.0, 1.0);",
+                "gl_FragColor = texture2D(tDiffuse2, offset*xf*luminance);",
 		"}"
 
 	].join("\n")

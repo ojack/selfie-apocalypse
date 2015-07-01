@@ -1,5 +1,5 @@
 
-var charString = ".:-=+*#%@";
+var charString = "@"; //".:-=+*#%@";
 var height = 128;
 var block = "█";
 
