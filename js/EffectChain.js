@@ -3,6 +3,7 @@ http://javascript.info/tutorial/factory-constructor-pattern
 */
 
 var ascii = require('./AsciiGradient.js');
+var t;
 
 function EffectChain(type, renderer, texture){
 	  // Throw an error if no constructor for the given automobile
@@ -107,18 +108,24 @@ Difference.prototype.render = function(x, y){
 
 var Ascii = function(renderer, texture){
 	var characters = new ascii();
+	// characters.canvas.width = characters.canvas.height = 128;
 	document.body.appendChild(characters.canvas);
-	var tex = initTexture(characters.canvas);
+	//t = initTexture(characters.canvas);
+t= new THREE.Texture( characters.canvas);
+	console.log(t);
+	t.needsUpdate=true;
+	var woodTexture = THREE.ImageUtils.loadTexture( 'textures/crate.gif' );
 	this.composer = new THREE.EffectComposer( renderer );
 	this.composer.addPass( new THREE.TexturePass( texture, 1.0 ));
 	this.Ascii = new THREE.ShaderPass( THREE.AsciiShader);
-	this.Ascii.uniforms['tDiffuse2'].value = tex;
+	this.Ascii.uniforms['tDiffuse2'].value = t;
 	this.Ascii.renderToScreen = true;
 	this.composer.addPass( this.Ascii);
 }
 
 Ascii.prototype.render = function(x, y){
 	var cols = 32;
+//	tex.needsUpdate = true;
 	this.Ascii.uniforms[ 'rows' ].value = cols * window.innerHeight / window.innerWidth;
 	this.Ascii.uniforms[ 'cols' ].value = cols;
 	
@@ -186,8 +193,8 @@ function initTexture(canvas){
 	//needed because cant ensure that video has power of two dimensions
 	//tex.wrapS = THREE.ClampToEdgeWrapping;
 //	tex.wrapT = THREE.ClampToEdgeWrapping;
-	//tex.minFilter = THREE.LinearFilter;
-	//tex.magFilter = THREE.LinearFilter;
+	tex.minFilter = THREE.LinearFilter;
+	tex.magFilter = THREE.LinearFilter;
 	return tex;
 }
 
