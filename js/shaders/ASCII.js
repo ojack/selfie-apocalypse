@@ -51,7 +51,8 @@ THREE.AsciiShader = {
                   "offset.y = offset.y * xf.y;",
                   "float shade = bucket;",
                   //"gl_FragColor = vec4(shade, shade, shade, 1.0);",
-                "gl_FragColor = texture2D(tDiffuse2, offset) * color;",
+               "gl_FragColor = texture2D(tDiffuse2, offset) ;",
+              // "gl_FragColor = texture2D(tDiffuse2, uv) ;
 		"}"
 
 	].join("\n")

@@ -1,5 +1,6 @@
 
-var charString = " .:-=+*#%@";
+var charString = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
+    .split("").reverse().join("");
 var height = 128;
 var block = "█";
 
@@ -10,7 +11,7 @@ var AsciiGradient = function(){
 	metrics = context.measureText('i');
 
 	canvas = document.createElement('canvas');
-	canvas.height = height;
+	canvas.height = height * 7/8;
 	canvas.width = metrics.width * charString.length;
 	// canvas.height =512;
 	// canvas.width =512;
@@ -22,11 +23,11 @@ var AsciiGradient = function(){
 	context.fillStyle = 'white';
 
 
-	context.fillText(charString, 0, height - 1);
+	context.fillText(charString, 0, canvas.height - 20);
 
 	this.canvas = canvas;
 	this.numChars = charString.length;
-	//document.body.appendChild(canvas);
+	document.body.appendChild(canvas);
 
 }
 

@@ -116,7 +116,10 @@ t= new THREE.Texture( characters.canvas);
 	t.needsUpdate=true;
 	var woodTexture = THREE.ImageUtils.loadTexture( 'textures/crate.gif' );
 	this.composer = new THREE.EffectComposer( renderer );
+	this.contrast = new THREE.ShaderPass( THREE.BrightnessContrastShader);
+	this.contrast.uniforms['contrast'].value = 0.7;
 	this.composer.addPass( new THREE.TexturePass( texture, 1.0 ));
+	this.composer.addPass( this.contrast );
 	this.Ascii = new THREE.ShaderPass( THREE.AsciiShader);
 	this.Ascii.uniforms['tDiffuse2'].value = t;
 	this.Ascii.renderToScreen = true;
@@ -125,10 +128,11 @@ t= new THREE.Texture( characters.canvas);
 }
 
 Ascii.prototype.render = function(x, y){
-	var cols = 64;
+	var cols = Math.floor(x * 100);
 //	tex.needsUpdate = true;
 	this.Ascii.uniforms[ 'rows' ].value = cols * window.innerHeight / window.innerWidth;
 	this.Ascii.uniforms[ 'cols' ].value = cols;
+	this.contrast.uniforms ['contrast'].value = y;
 	
 	this.composer.render();
 }
