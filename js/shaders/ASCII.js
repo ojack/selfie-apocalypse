@@ -10,7 +10,8 @@ THREE.AsciiShader = {
 		"tDiffuse": { type: "t", value: null },
 		"tDiffuse2": { type: "t", value: null },
 		"rows": {type: "f", value: null},
-		"cols": {type: "f", value: null}
+		"cols": {type: "f", value: null},
+		"numChars": {type: "f", value: null},
 
 	},
 
@@ -33,6 +34,7 @@ THREE.AsciiShader = {
 		"uniform float cols;",
 		"uniform sampler2D tDiffuse;",
 		"uniform sampler2D tDiffuse2;",
+		"uniform float numChars;",
 
 		"varying vec2 vUv;",
 
@@ -44,8 +46,12 @@ THREE.AsciiShader = {
                   "vec2 offset = (uv - floor(xf*uv)/xf);",
                   "color = texture2D(tDiffuse, box);",
                   "float luminance = color.r * 0.299 + color.g * 0.587 + color.b * 0.114;",
-                //  "gl_FragColor = vec4(xf * offset, 1.0, 1.0);",
-                "gl_FragColor = texture2D(tDiffuse2, offset*xf*luminance);",
+                  "float bucket = floor(numChars * luminance) / numChars ;",
+                  "offset.x = bucket + offset.x * xf.x / numChars;",
+                  "offset.y = offset.y * xf.y;",
+                  "float shade = bucket;",
+                  //"gl_FragColor = vec4(shade, shade, shade, 1.0);",
+                "gl_FragColor = texture2D(tDiffuse2, offset) * color;",
 		"}"
 
 	].join("\n")

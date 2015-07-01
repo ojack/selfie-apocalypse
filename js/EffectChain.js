@@ -109,10 +109,10 @@ Difference.prototype.render = function(x, y){
 var Ascii = function(renderer, texture){
 	var characters = new ascii();
 	// characters.canvas.width = characters.canvas.height = 128;
-	document.body.appendChild(characters.canvas);
+	//document.body.appendChild(characters.canvas);
 	//t = initTexture(characters.canvas);
 t= new THREE.Texture( characters.canvas);
-	console.log(t);
+	//console.log(t);
 	t.needsUpdate=true;
 	var woodTexture = THREE.ImageUtils.loadTexture( 'textures/crate.gif' );
 	this.composer = new THREE.EffectComposer( renderer );
@@ -120,11 +120,12 @@ t= new THREE.Texture( characters.canvas);
 	this.Ascii = new THREE.ShaderPass( THREE.AsciiShader);
 	this.Ascii.uniforms['tDiffuse2'].value = t;
 	this.Ascii.renderToScreen = true;
+	this.Ascii.uniforms['numChars'].value = characters.numChars;
 	this.composer.addPass( this.Ascii);
 }
 
 Ascii.prototype.render = function(x, y){
-	var cols = 32;
+	var cols = 64;
 //	tex.needsUpdate = true;
 	this.Ascii.uniforms[ 'rows' ].value = cols * window.innerHeight / window.innerWidth;
 	this.Ascii.uniforms[ 'cols' ].value = cols;
