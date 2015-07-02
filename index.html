@@ -9,6 +9,7 @@
    background-color: #000;
    color: #fff;
    font-family: "Courier New", Courier, monospace;
+   text-align: center;
     }
 
     #container{
@@ -20,7 +21,35 @@
     #landing{
     	position:fixed;
     	z-index:100;
+      background-color: #000;
+      padding: 20px;
+      padding-left: 40px;
+      padding-right: 40px;
+      width:400px;
+      height: 200px;
+      top:50%;
+     left:50%;
+     margin:-120px 0 0 -240px;
     }
+
+    #title{
+      font-size: 82px;
+    }
+     #title2{
+      font-size: 48px;
+    }
+
+    #by{
+      font-size: 11px;
+      text-align: right;
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+    }
+
+    a{
+    color: #FFFFFF;
+}
   </style>
 </head>
 
@@ -31,11 +60,18 @@
 <img id="recording" src="textures/player_record.png"  style="width:40px;height:40px;position:absolute; right:10px; top: 10px; z-index: 40; visibility:hidden">
 <div id="landing">
 <!--<img id="front-page" src="textures/front-page.png"  style="width:100%;height:100%;position:absolute; top:0px; left:0px; z-index: 100;">-->
-<div>[click allow]</div>
-<div>click allow^</div>
+<div id="start">
+  <div id="title">SELFIE</div>
+  <div id="title2">APOCALYPSE</div>
+  <div></br>[click]</div>
+</div>
+<div id="instructions" style="visibility:hidden">
+<div></br>^ click allow</br></br></br></div>
 <div><p>&#8592;  &#8594; to change effects</p></div>
 <div><p>"g"  to make a GIF<p></div>
 <div>"s" to take a screenshot</div>
+<div id="by">by <a href="https://ojack.github.io">olivia</a></div>
+</div>
 </div>
 
 <script src="./js/three.js"></script>
@@ -45,7 +81,7 @@
 <script src="js/shaders/DotScreenShader.js"></script>
 <script src="js/shaders/RGBShiftShader.js"></script>
 <script src="js/shaders/KaleidoShader.js"></script>
-<script src="js/shaders/DigitalGlitch.js"></script>
+<script src="js/shaders/ColorEffectShader.js"></script>
 <script src="js/shaders/BlendShader.js"></script>
 <script src="js/shaders/FilmShader.js"></script>
 <script src="js/shaders/BrightnessContrastShader.js"></script>

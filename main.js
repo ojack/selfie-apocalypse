@@ -1,8 +1,10 @@
 var getUserMedia = require('getusermedia');
 var EffectChain = require('./js/EffectChain.js');
+var GenerateGif = require('./js/GenerateGif.js');
+
 var gifFrames = 0;
-var effects = ["Ascii", "Checkerboard", "Kaleidoscope", "GlassWarp",  "Difference", "RgbDots", "Film"];
-var effectIndex = 2;
+var effects = ["KaleidoColor", "Ascii",  "Kaleidoscope", "GlassWarp",  "Difference", "RgbDots", "Checkerboard","Film"];
+var effectIndex = 0;
 var renderingGif = false;
 var currentGif;
 var frameCount = 0;
@@ -12,6 +14,14 @@ var getImageData = false;
 var localVid = document.getElementById('videoObj');
 //var remoteVid = document.getElementById('remoteVideo');
 window.addEventListener("mousemove", onMouseMove);
+window.addEventListener("mousedown", function(){
+	console.log("click");
+	var d = document.getElementById("landing");
+var d_nested = document.getElementById("start");
+var throwawayNode = d.removeChild(d_nested);
+	document.getElementById("instructions").style.visibility = "visible";
+	askForMedia();
+});
 document.onkeydown = checkKey;
 window.addEventListener( 'resize', onWindowResize, false );
 
@@ -32,7 +42,8 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
        console.log('got a stream', stream);  
        texture1 = initVideoTexture(localVid);
        document.getElementById("landing").style.visibility = "hidden";
-       effectIndex=0;
+       document.getElementById("instructions").style.visibility = "hidden";
+       effectIndex=1;
        effectChain = EffectChain(effects[effectIndex], renderer, texture1);
     //  initWebGL();
   
@@ -50,6 +61,7 @@ function initWebGL(){
 	renderer.domElement.style.position = "absolute";
 	renderer.domElement.style.top = '0px';
 	renderer.domElement.style.left = '0px';
+	renderer.domElement.style.zIndex = '-20';
 	texture1 = THREE.ImageUtils.loadTexture( "textures/lines.png" );
 
 	initEffects();
@@ -87,7 +99,7 @@ function render() {
 	effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
 	if(renderingGif){
 		if(frameCount%10==0){
-			currentGif.addFrame(renderer.domElement);
+			renderingGif = currentGif.addFrame(renderer.domElement);
 		}
 	}
 }
@@ -98,66 +110,37 @@ function onWindowResize() {
 
 			}
 
+
+
+
+
 function checkKey(e){
 	 e = e || window.event;
+	 
+
 	if(e.keyCode ==  83){
 		effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
 		var imgData = renderer.domElement.toDataURL();
 		window.open(imgData);
 	} else if(e.keyCode ==  71){
 		renderingGif = true;
-		currentGif = new generateGif(renderer.domElement, 50);
+		console.log(renderer.domElement);
+		effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
+
+		currentGif = new GenerateGif(renderer.domElement, 50, effectChain);
 
   } else if (e.keyCode == '37') {
     	effectIndex--;
+    	 document.getElementById("instructions").style.visibility = "hidden";
+       document.getElementById("landing").style.visibility = "hidden";
     	if(effectIndex < 0) effectIndex = effects.length-1;
     }
     else if (e.keyCode == '39') {
     	effectIndex++;
-    	if(effectIndex >= effects.length) effectIndex = 0;
+    	 document.getElementById("instructions").style.visibility = "hidden";
+       document.getElementById("landing").style.visibility = "hidden";
+    	if(effectIndex >= effects.length) effectIndex = 1;
     }
     effectChain = EffectChain(effects[effectIndex], renderer, texture1);
-}
-
-var generateGif = function(element, numFrames){
-	document.getElementById("recording").src = "textures/player_record.png";
-	document.getElementById("recording").style.visibility = "visible";
-	effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
-	this.canvas = document.createElement( 'canvas' );
-	this.canvas.width = renderer.domElement.width;
-	this.canvas.height = renderer.domElement.height;
-	this.context = this.canvas.getContext( '2d' );
-	this.numFrames = numFrames;
-	this.frameIndex = 0;
-	this.gif = new GIF({
-  workers: 2,
-  quality: 100
-});
-	
-
-
-this.gif.on('finished', function(blob) {
-	document.getElementById("recording").style.visibility = "hidden";
-  window.open(URL.createObjectURL(blob));
-});
-
-
-}
-
-generateGif.prototype.addFrame = function(element){
-	this.frameIndex++;
-	if(this.frameIndex >= this.numFrames){
-		this.finish();
-	} else {
-	this.context.drawImage( element, 0, 0 );
-	this.gif.addFrame(this.canvas, {copy: true, delay:200});
-	this.frameIndex++;
-	}
-}
-
-generateGif.prototype.finish = function(){
-	document.getElementById("recording").src = "textures/ajax-loader.gif";
-	renderingGif = false;
-	this.gif.render();
 }
 

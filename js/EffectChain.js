@@ -51,8 +51,28 @@ var Kaleidoscope = function(renderer, texture){
 Kaleidoscope.prototype.render = function(x, y, frame){
 	var sides = Math.ceil(x*10);
 	this.KaleidoEffect.uniforms[ 'sides' ].value = x*7;
-	this.KaleidoEffect.uniforms[ 'offset' ].value = y*10;
+	this.KaleidoEffect.uniforms[ 'offset' ].value = y*8;
 	this.ColorEffect.uniforms[ 'hue' ].value = Math.cos(frame*0.01);
+	this.composer.render();
+}
+
+var KaleidoColor = function(renderer, texture){
+	this.composer = new THREE.EffectComposer( renderer );
+	this.composer.addPass( new THREE.TexturePass( texture, 1.0 ));
+	this.KaleidoEffect = new THREE.ShaderPass( THREE.KaleidoShader);
+	//this.KaleidoEffect.renderToScreen = true;
+	this.composer.addPass( this.KaleidoEffect);
+	this.ColorEffect = new THREE.ShaderPass( THREE.ColorEffectShader);
+	//this.ColorEffect.uniforms[ 'saturation' ].value = 1.0;
+	this.ColorEffect.renderToScreen = true;
+	this.composer.addPass( this.ColorEffect);
+}
+
+KaleidoColor.prototype.render = function(x, y, frame){
+	var sides = Math.ceil(x*10);
+	this.KaleidoEffect.uniforms[ 'sides' ].value = x*7;
+	this.KaleidoEffect.uniforms[ 'offset' ].value = y*6;
+	this.ColorEffect.uniforms[ 'hue' ].value = Math.cos(frame*0.004);
 	this.composer.render();
 }
 
