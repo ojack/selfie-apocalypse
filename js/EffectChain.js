@@ -128,7 +128,7 @@ t= new THREE.Texture( characters.canvas);
 }
 
 Ascii.prototype.render = function(x, y){
-	var cols = Math.floor(x * 100);
+	var cols = Math.floor(x * 150);
 //	tex.needsUpdate = true;
 	this.Ascii.uniforms[ 'rows' ].value = cols * window.innerHeight / window.innerWidth;
 	this.Ascii.uniforms[ 'cols' ].value = cols;

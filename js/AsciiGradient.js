@@ -29,7 +29,7 @@ var AsciiGradient = function(){
 
 	this.canvas = canvas;
 	this.numChars = charString.length;
-	document.body.appendChild(canvas);
+	//document.body.appendChild(canvas);
 
 }
 

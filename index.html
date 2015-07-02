@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="http://simplewebrtc.com/latest.js"></script>
+
 <style type="text/css">
   html, body {
    padding: 0px;
    margin: 0px;
+   background-color: #000;
+   color: #fff;
+   font-family: "Courier New", Courier, monospace;
+    }
+
+    #container{
+    	position:absolute;
+    	top:0px;
+    	left:0px;
+    }
+
+    #landing{
+    	position:fixed;
+    	z-index:100;
     }
   </style>
 </head>
@@ -15,9 +29,14 @@
 <video id="videoObj" muted style="display:none" autoplay = true></video>
 
 <img id="recording" src="textures/player_record.png"  style="width:40px;height:40px;position:absolute; right:10px; top: 10px; z-index: 40; visibility:hidden">
-
-<img id="front-page" src="textures/front-page.png"  style="width:100%;height:100%;position:absolute; top:0px; left:0px; z-index: 100;">
-
+<div id="landing">
+<!--<img id="front-page" src="textures/front-page.png"  style="width:100%;height:100%;position:absolute; top:0px; left:0px; z-index: 100;">-->
+<div>[click allow]</div>
+<div>click allow^</div>
+<div><p>&#8592;  &#8594; to change effects</p></div>
+<div><p>"g"  to make a GIF<p></div>
+<div>"s" to take a screenshot</div>
+</div>
 
 <script src="./js/three.js"></script>
 <script src="./js/gif.worker.js"></script>

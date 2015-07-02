@@ -2,7 +2,7 @@ var getUserMedia = require('getusermedia');
 var EffectChain = require('./js/EffectChain.js');
 var gifFrames = 0;
 var effects = ["Ascii", "Checkerboard", "Kaleidoscope", "GlassWarp",  "Difference", "RgbDots", "Film"];
-var effectIndex = 0;
+var effectIndex = 2;
 var renderingGif = false;
 var currentGif;
 var frameCount = 0;
@@ -11,10 +11,13 @@ mouseX = mouseY = 1;
 var getImageData = false;
 var localVid = document.getElementById('videoObj');
 //var remoteVid = document.getElementById('remoteVideo');
-document.addEventListener("mousemove", onMouseMove);
+window.addEventListener("mousemove", onMouseMove);
 document.onkeydown = checkKey;
 window.addEventListener( 'resize', onWindowResize, false );
 
+
+
+function askForMedia(){
 //s = new LocalStream(localVid);
 getUserMedia({video: true, audio: false}, function (err, stream) {
     // if the browser doesn't support user media
@@ -27,26 +30,30 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
     	if (window.URL) 
 	{   localVid.src = window.URL.createObjectURL(stream);   } 
        console.log('got a stream', stream);  
-      initWebGL();
-      //	texture1 = initVideoTexture(localVid);
-      //	initEffects();
-      /*	effectIndex++;
-    	if(effectIndex >= effects.length) effectIndex = 0;*/
+       texture1 = initVideoTexture(localVid);
+       document.getElementById("landing").style.visibility = "hidden";
+       effectIndex=0;
+       effectChain = EffectChain(effects[effectIndex], renderer, texture1);
+    //  initWebGL();
+  
     }
 });
+}
 
-//initWebGL();
+initWebGL();
 
 function initWebGL(){
 	renderer = new THREE.WebGLRenderer();
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
-	texture1 = initVideoTexture(localVid);
-	//texture1  = THREE.ImageUtils.loadTexture( 'textures/crate.gif' );
-			//	texture1 .anisotropy = renderer.getMaxAnisotropy();
+	renderer.domElement.style.position = "absolute";
+	renderer.domElement.style.top = '0px';
+	renderer.domElement.style.left = '0px';
+	texture1 = THREE.ImageUtils.loadTexture( "textures/lines.png" );
+
 	initEffects();
-	document.getElementById("front-page").style.visibility = "hidden";
+	
 	render();
 }
 
@@ -68,6 +75,7 @@ function initEffects(){
 	
 
 function onMouseMove(e){
+	console.log("mouse move");
 	mouseX = e.pageX;
 	mouseY = e.pageY;
 }
@@ -93,14 +101,9 @@ function onWindowResize() {
 function checkKey(e){
 	 e = e || window.event;
 	if(e.keyCode ==  83){
-		console.log("s pressed");
-		//getImageData = true;
 		effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
 		var imgData = renderer.domElement.toDataURL();
 		window.open(imgData);
-		//console.log(imgData);
-		
-	
 	} else if(e.keyCode ==  71){
 		renderingGif = true;
 		currentGif = new generateGif(renderer.domElement, 50);
@@ -108,12 +111,10 @@ function checkKey(e){
   } else if (e.keyCode == '37') {
     	effectIndex--;
     	if(effectIndex < 0) effectIndex = effects.length-1;
-       // left arrow
     }
     else if (e.keyCode == '39') {
     	effectIndex++;
     	if(effectIndex >= effects.length) effectIndex = 0;
-       // right arrow
     }
     effectChain = EffectChain(effects[effectIndex], renderer, texture1);
 }
@@ -126,8 +127,6 @@ var generateGif = function(element, numFrames){
 	this.canvas.width = renderer.domElement.width;
 	this.canvas.height = renderer.domElement.height;
 	this.context = this.canvas.getContext( '2d' );
-	//this.addFrame(element);
-	//document.body.appendChild(this.canvas);
 	this.numFrames = numFrames;
 	this.frameIndex = 0;
 	this.gif = new GIF({
@@ -151,9 +150,6 @@ generateGif.prototype.addFrame = function(element){
 		this.finish();
 	} else {
 	this.context.drawImage( element, 0, 0 );
-
-		
-
 	this.gif.addFrame(this.canvas, {copy: true, delay:200});
 	this.frameIndex++;
 	}
