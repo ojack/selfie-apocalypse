@@ -31,7 +31,7 @@ var RgbDots = function(renderer, texture){
 
 RgbDots.prototype.render = function(x, y){
 	//this.texture.needsUpdate = true;
-	this.dotScreenEffect.uniforms[ 'scale' ].value = x ;
+	this.dotScreenEffect.uniforms[ 'scale' ].value = x*3 ;
 	this.rgbEffect.uniforms[ 'amount' ].value = y ;
 	this.composer.render();
 
@@ -79,21 +79,22 @@ KaleidoColor.prototype.render = function(x, y, frame){
 var Film = function(renderer, texture){
 	this.composer = new THREE.EffectComposer( renderer );
 	this.composer.addPass( new THREE.TexturePass( texture, 1.0 ));
-	this.FilmEffect = new THREE.ShaderPass( THREE.FilmShader);
-	//this.FilmEffect.renderToScreen = true;
-	this.rgbEffect = new THREE.ShaderPass( THREE.RGBShiftShader );
+
+	this.rgbEffect = new THREE.ShaderPass( THREE.ColorExperimentShader );
 	this.rgbEffect.uniforms[ 'amount' ].value = 0.0015;
-	this.rgbEffect.renderToScreen = true;
-	this.composer.addPass( this.FilmEffect);
+	//this.rgbEffect.renderToScreen = true;
+	this.Experiment = new THREE.ShaderPass( THREE.HueSaturationShader);
+	this.Experiment.renderToScreen = true;
+	
+
 	this.composer.addPass( this.rgbEffect);
+	this.composer.addPass( this.Experiment );
 }
 
 Film.prototype.render = function(x, y){
-	// noise effect intensity value (0 = no effect, 1 = full effect)
-	this.FilmEffect.uniforms['sIntensity'].value = y;
-	this.FilmEffect.uniforms['nIntensity'].value = y;
-	this.FilmEffect.uniforms['sCount'].value = y*100;
+
 	this.rgbEffect.uniforms[ 'amount' ].value = x*0.8;
+	this.Experiment.uniforms[ 'hue' ].value = y*2.0 - 1.0;
 		// scanlines effect intensity value (0 = no effect, 1 = full effect)
 		
 	this.composer.render();
@@ -176,23 +177,17 @@ var GlassWarp = function(renderer, texture){
 	this.composer = new THREE.EffectComposer( renderer );
 	this.composer.addPass( new THREE.TexturePass( texture, 1.0 ));
 	this.GlassWarp = new THREE.ShaderPass( THREE.GlassWarpShader);
-	//this.GlassWarp.renderToScreen = true;
+	this.GlassWarp.renderToScreen = true;
 	this.composer.addPass( this.GlassWarp);
-	this.Experiment = new THREE.ShaderPass( THREE.HueSaturationShader);
-	//this.Experiment.renderToScreen = true;
-	this.Experiment.uniforms['saturation'].value = -.5;
-	this.composer.addPass( this.Experiment );
-	contrast = new THREE.ShaderPass( THREE.BrightnessContrastShader);
-	contrast.renderToScreen = true;
-	contrast.uniforms['contrast'].value = 0.7;
-	contrast.uniforms['brightness'].value = 0.25;
-	this.composer.addPass( contrast );
+
+	//this.composer.addPass( contrast );
 }
 
 GlassWarp.prototype.render = function(x, y, frame){
 	this.GlassWarp.uniforms[ 'mouseX' ].value = x;
 	this.GlassWarp.uniforms[ 'mouseY' ].value = y;
-	this.GlassWarp.uniforms[ 'mag' ].value = 40*Math.sin(frame*0.0005);
+	this.GlassWarp.uniforms[ 'mag' ].value = 40*Math.sin(frame*0.0009);
+	//this.ColorEffect.uniforms[ 'hue' ].value = Math.cos(frame*0.01);
 	//this.Difference.uniforms[ 'mixRatio' ].value = y;
 	this.composer.render();
 }

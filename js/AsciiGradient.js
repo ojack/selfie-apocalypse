@@ -1,3 +1,7 @@
+/*
+* Draws an Ascii string onto a canvas element
+*/
+
 
 var charString = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'. "
     .split("").reverse().join("");
