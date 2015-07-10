@@ -93,7 +93,7 @@ var Film = function(renderer, texture){
 
 Film.prototype.render = function(x, y){
 
-	this.rgbEffect.uniforms[ 'amount' ].value = x*0.8;
+	this.rgbEffect.uniforms[ 'amount' ].value = 0.5-x;
 	this.Experiment.uniforms[ 'hue' ].value = y*2.0 - 1.0;
 		// scanlines effect intensity value (0 = no effect, 1 = full effect)
 		
@@ -186,7 +186,7 @@ var GlassWarp = function(renderer, texture){
 GlassWarp.prototype.render = function(x, y, frame){
 	this.GlassWarp.uniforms[ 'mouseX' ].value = x;
 	this.GlassWarp.uniforms[ 'mouseY' ].value = y;
-	this.GlassWarp.uniforms[ 'mag' ].value = 40*Math.sin(frame*0.0009);
+	this.GlassWarp.uniforms[ 'mag' ].value = 40*Math.sin(frame*0.002);
 	//this.ColorEffect.uniforms[ 'hue' ].value = Math.cos(frame*0.01);
 	//this.Difference.uniforms[ 'mixRatio' ].value = y;
 	this.composer.render();

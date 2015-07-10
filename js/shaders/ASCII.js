@@ -1,5 +1,6 @@
 /**
  *  Ascii shader
+ * by Olivia Jack (@rhizomaticode) and Kamal Marhubi (@kamalmarhubi)
  *
  */
 

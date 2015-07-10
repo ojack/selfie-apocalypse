@@ -4,7 +4,7 @@ var EffectChain = require('./js/EffectChain.js');
 var GenerateGif = require('./js/GenerateGif.js');
 
 var gifFrames = 0;
-var effects = ["KaleidoColor",  "GlassWarp",  "Ascii", "Difference", "Checkerboard", "Film"];
+var effects = ["KaleidoColor",  "GlassWarp",  "Film",  "Ascii", "Difference",  "Checkerboard" ];
 var effectIndex = 0;
 var renderingGif = false;
 var currentGif;
@@ -49,7 +49,7 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
        		if (document.getElementById("landing").style.visibility == "visible"){
        			toggleInstructions();
        		}
-       }, 10000);
+       }, 5000);
     }
 });
 }

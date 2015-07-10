@@ -47,7 +47,7 @@ THREE.RGBShiftShader = {
 			"vec4 cr = texture2D(tDiffuse, vUv + offset);",
 			"vec4 cga = texture2D(tDiffuse, vUv);",
 			"vec4 cb = texture2D(tDiffuse, vUv - offset);",
-			"gl_FragColor = vec4(cr.r, cga.g-cb.g, cb.b-cr.b, cga.a);",
+			"gl_FragColor = vec4(cr.r, cga.g, cb.b, cga.a);",
 
 		"}"
 
