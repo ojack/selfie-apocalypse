@@ -54,19 +54,9 @@ THREE.GlassWarpShader = {
 				"color += cos(vUv.x*vUv.y*dist);",
 			"}",
 			//"gl_FragColor = texture2D( tDiffuse, vUv);",
-			"gl_FragColor = texture2D(tDiffuse, vec2(vUv.x-color*0.1, vUv.y));",
-			//"vec4 fullColor = vec4(color, 1.0);",
-			//"gl_FragColor = vec4(diff(color.r, tex.r, 0.5), diff(color.g, tex.g, 0.5), diff(color.b, tex.b, 0.5), 1.0);",
-		//	"gl_FragColor = texture2D( tDiffuse, disp);",
-			//"gl_FragColor = vec4(dist, dist, dist, 1.0);",
-			/*"vec2 checker = vec2(width, height);",
-			//"if(p.x > mirror) p.x = p.x-2.0*(p.x-mirror);",
-			/*"vec2 cell = step(0.5, fract(vUv/checker));",
-			"if(cell.x + cell.y == 1.0){",
-			"gl_FragColor = texture2D( tDiffuse, p);",
-			"} else {",
-			"gl_FragColor = texture2D( tDiffuse, vUv);",
-			"}",*/
+			"vec4 col  = texture2D(tDiffuse, vec2(vUv.x-color*0.1, vUv.y));",
+			" gl_FragColor = vec4(col.r, col.g, col.b, 1.0);",
+			
 
 		"}"
 

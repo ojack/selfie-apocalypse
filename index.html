@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:fb="http://ogp.me/ns/fb#">
 <head>
-
+<title>selfie apocalypse</title>
+ <meta property="og:image" content="https://raw.githubusercontent.com/ojack/selfie-apocalypse/master/images/fb-purple.png" />
 <style type="text/css">
   html, body {
    padding: 0px;
@@ -66,10 +67,11 @@
   <div></br>[click]</div>
 </div>
 <div id="instructions" style="visibility:hidden">
-<div></br>^ click allow</br></br></br></div>
-<div><p>&#8592;  &#8594; to change effects</p></div>
-<div><p>"g"  to make a GIF<p></div>
-<div>"s" to take a screenshot</div>
+<div id="blinky" style="text-decoration: blink; color: #cc00ff; text-align: left; position: absolute; top: 10px">^ click allow</br></div>
+</br> <p> &#8592;  &#8594; to change effects</p>
+      <p>"g"  to make a GIF<p>
+      "s" to take a screenshot
+      </br> </br>"i" to show/hide these instructions
 <div id="by">by <a href="https://ojack.github.io">olivia</a></div>
 </div>
 </div>
@@ -79,8 +81,9 @@
 <script src="./js/gif.js"></script>
 <script src="js/shaders/CopyShader.js"></script>
 <script src="js/shaders/DotScreenShader.js"></script>
+<script src="js/shaders/ColorExperimentShader.js"></script>
 <script src="js/shaders/RGBShiftShader.js"></script>
-<script src="js/shaders/KaleidoShader.js"></script>
+<script src="js/shaders/KaleidoWarpShader.js"></script>
 <script src="js/shaders/ColorEffectShader.js"></script>
 <script src="js/shaders/BlendShader.js"></script>
 <script src="js/shaders/FilmShader.js"></script>
