@@ -30,11 +30,11 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
        //console.log('failed ');
        console.log(err);
        
-       if(err.name == "NotSupportedError"){
+      /* if(err.name == "NotSupportedError"){
        	 document.getElementById("blinky").innerHTML = "no camera available :[ try using Chrome or Firefox";
-       } else {
+       } else {*/
        	document.getElementById("blinky").innerHTML = "no camera available :[";
-       }
+      // }
 
     } else {
     	if (window.URL) 
@@ -45,6 +45,11 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
        document.getElementById("blinky").style.color = '#000';
        effectIndex=0;
        effectChain = EffectChain(effects[effectIndex], renderer, texture1);
+       setTimeout(function(){
+       		if (document.getElementById("landing").style.visibility == "visible"){
+       			toggleInstructions();
+       		}
+       }, 10000);
     }
 });
 }

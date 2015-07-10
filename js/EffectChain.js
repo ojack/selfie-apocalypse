@@ -59,7 +59,7 @@ Kaleidoscope.prototype.render = function(x, y, frame){
 var KaleidoColor = function(renderer, texture){
 	this.composer = new THREE.EffectComposer( renderer );
 	this.composer.addPass( new THREE.TexturePass( texture, 1.0 ));
-	this.KaleidoEffect = new THREE.ShaderPass( THREE.KaleidoShader);
+	this.KaleidoEffect = new THREE.ShaderPass( THREE.KaleidoWarpShader);
 	//this.KaleidoEffect.renderToScreen = true;
 	this.composer.addPass( this.KaleidoEffect);
 	this.ColorEffect = new THREE.ShaderPass( THREE.ColorEffectShader);
