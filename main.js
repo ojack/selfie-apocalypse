@@ -29,7 +29,7 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
     if (err) {
        //console.log('failed ');
        console.log(err);
-       
+
       /* if(err.name == "NotSupportedError"){
        	 document.getElementById("blinky").innerHTML = "no camera available :[ try using Chrome or Firefox";
        } else {*/
@@ -37,9 +37,11 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
       // }
 
     } else {
-    	if (window.URL) 
-	{   localVid.src = window.URL.createObjectURL(stream);   } 
-       console.log('got a stream', stream);  
+  //   	if (window.URL)
+	// {   localVid.src = window.URL.createObjectURL(stream);
+  // }
+      localVid.srcObject = stream
+       console.log('got a stream', stream);
        texture1 = initVideoTexture(localVid);
        toggleInstructions();
        document.getElementById("blinky").style.color = '#000';
@@ -57,7 +59,7 @@ getUserMedia({video: true, audio: false}, function (err, stream) {
 function toggleInstructions(){
 	var toggle = document.getElementById("landing").style.visibility == "visible" ?  "hidden": "visible";
     document.getElementById("instructions").style.visibility = document.getElementById("landing").style.visibility = toggle;
-  
+
 }
 initWebGL();
 
@@ -73,7 +75,7 @@ function initWebGL(){
 	texture1 = THREE.ImageUtils.loadTexture( "textures/lines.png" );
 
 	initEffects();
-	
+
 	render();
 }
 
@@ -92,7 +94,7 @@ function initEffects(){
 }
 
 
-	
+
 
 function onMouseMove(e){
 	mouseX = e.pageX;
@@ -130,7 +132,7 @@ function hideIntro(){
 
 function checkKey(e){
 	 e = e || window.event;
-	 
+
 	 //Take screenshot
 	if(e.keyCode ==  83){
 		effectChain.render(mouseX/window.innerWidth, mouseY/window.innerHeight, frameCount);
@@ -160,6 +162,5 @@ function checkKey(e){
     } else if (e.keyCode=='73'){
     	toggleInstructions();
     }
-    
-}
 
+}
